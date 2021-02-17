@@ -63,3 +63,16 @@ inline fun <reified T: Any> Activity.startActivityForResult(data: Intent, reques
 }
 
 fun Intent.addClearFlags() = this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+// Activity related
+inline fun <reified  T : Any> Activity.getValue(
+    label : String, default : T? = null) = lazy{
+    val value = intent?.extras?.get(label)
+    if (value is T) value else default
+}
+
+inline fun <reified  T : Any> Activity.getValueNonNull(
+    label : String, default : T? = null) = lazy{
+    val value = intent?.extras?.get(label)
+    requireNotNull((if (value is T) value else default)){label}
+}
