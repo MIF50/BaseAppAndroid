@@ -2,6 +2,7 @@ package com.mif50.baseapp.data.local.pref
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,28 +18,33 @@ class AppPrefStorage @Inject constructor(
     @ApplicationContext val context: Context
 ):PrefStorage {
 
-    private val Context.dataStore by preferencesDataStore("app_preferences")
-
-    private object PreferencesKeys {
-        val IS_DARK_THEME = booleanPreferencesKey("pref_dark_theme")
-        val NAME = stringPreferencesKey("pref_name")
+    companion object {
+        private const val KEY_PREF_NAME = "app_preferences"
     }
+
+    private val Context.dataStore by preferencesDataStore(KEY_PREF_NAME)
 
     override val isDarkTheme: Flow<Boolean>
-        get() = context.dataStore.getValueAsFlow(PreferencesKeys.IS_DARK_THEME, false)
+        get() = context.dataStore.getValueAsFlow(Keys.IS_DARK_THEME, false)
 
     override suspend fun setIsDarkTheme(isDarkTheme: Boolean) {
-        context.dataStore.setValue(PreferencesKeys.IS_DARK_THEME, isDarkTheme)
+        context.dataStore.setValue(Keys.IS_DARK_THEME, isDarkTheme)
     }
 
 
 
 
 
-    override suspend fun clearPreferenceStorage() {
+    override suspend fun clear() {
         context.dataStore.edit {
             it.clear()
         }
+    }
+
+    //Todo: Keys
+    private object Keys {
+        val IS_DARK_THEME = booleanPreferencesKey("pref_dark_theme",)
+        val NAME = stringPreferencesKey("pref_name")
     }
 
     /***
