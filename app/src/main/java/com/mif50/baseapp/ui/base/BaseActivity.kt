@@ -48,6 +48,7 @@ abstract class BaseActivity<VB : ViewBinding,VM : BaseViewModel> : AppCompatActi
 
     override fun onDestroy() {
         super.onDestroy()
+        viewModel.clear()
         _binding = null
     }
 }

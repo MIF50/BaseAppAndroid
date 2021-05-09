@@ -3,6 +3,7 @@ package com.mif50.baseapp.ui.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mif50.baseapp.R
+import com.mif50.baseapp.data.local.pref.PrefStorage
 import com.mif50.baseapp.helper.Logger
 import com.mif50.baseapp.helper.network.NetworkHelper
 import com.mif50.baseapp.helper.network.StateNetworkException.CONNECTION_EXCEPTION
@@ -10,6 +11,7 @@ import com.mif50.baseapp.helper.network.StateNetworkException.DEFAULT_EXCEPTION
 import com.mif50.baseapp.helper.network.StateNetworkException.NETWORK_EXCEPTION
 import com.mif50.baseapp.helper.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 import javax.net.ssl.HttpsURLConnection
 
 sealed class StateError {
@@ -26,6 +28,8 @@ abstract class BaseViewModel(
     protected val schedulerProvider: SchedulerProvider,
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
+
+    @Inject lateinit var prefStorage: PrefStorage
 
     companion object {
         private const val TAG = "BaseViewModel"
@@ -92,6 +96,10 @@ abstract class BaseViewModel(
 
     protected open fun forcedLogoutUser() {
         // do something
+    }
+
+    open fun clear(){
+        onCleared()
     }
 
     override fun onCleared() {

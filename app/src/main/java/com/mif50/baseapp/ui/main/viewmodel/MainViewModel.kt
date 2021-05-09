@@ -3,15 +3,19 @@ package com.mif50.baseapp.ui.main.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.mif50.baseapp.domain.model.Transaction
 import com.mif50.baseapp.domain.usecase.GetErrorUseCase
 import com.mif50.baseapp.domain.usecase.GetTransactionUseCase
+import com.mif50.baseapp.helper.Logger
 import com.mif50.baseapp.helper.network.NetworkHelper
 import com.mif50.baseapp.helper.rx.SchedulerProvider
 import com.mif50.baseapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface IMainViewModel {
@@ -67,4 +71,18 @@ class MainViewModel @Inject constructor(
             )
             .addTo(compositeDisposable)
     }
+
+    fun setIsDarkTheme(isDark: Boolean) {
+        viewModelScope.launch {
+            prefStorage.setIsDarkTheme(isDark)
+        }
+    }
+
+    fun getDarkTheme() {
+        viewModelScope.launch {
+            val isDarkTheme = prefStorage.isDarkTheme.firstOrNull()
+            Logger.d("MainViewModel","isDarkTheme = $isDarkTheme")
+        }
+    }
+
 }

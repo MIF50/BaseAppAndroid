@@ -22,7 +22,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun getViewModelClass(): Class<MainViewModel> = MainViewModel::class.java
 
-    override fun setup() { }
+    override fun setup() {}
 
     override fun initObserver() {
         super.initObserver()
