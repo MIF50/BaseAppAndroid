@@ -16,9 +16,9 @@ inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
     }
 
 inline fun <T> AppCompatActivity.observe(data: LiveData<T>, crossinline block: (T) -> Unit) {
-    data.observe(this, {
+    data.observe(this) {
         block(it)
-    })
+    }
 }
 
 inline fun <reified T: Any> Activity.startActivity() {
