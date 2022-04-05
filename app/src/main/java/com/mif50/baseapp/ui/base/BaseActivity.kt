@@ -3,12 +3,8 @@ package com.mif50.baseapp.ui.base
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.mif50.baseapp.helper.Logger
-import com.mif50.baseapp.ui.main.MainActivity
-import com.mif50.baseapp.ui.main.viewmodel.IMainViewModel
 
 abstract class BaseActivity<VB : ViewBinding,VM : BaseViewModel> : AppCompatActivity() {
 
@@ -21,7 +17,7 @@ abstract class BaseActivity<VB : ViewBinding,VM : BaseViewModel> : AppCompatActi
         get() = _binding as VB
 
     // TODO: ViewModel
-    protected val viewModel: VM by lazy { ViewModelProvider(this).get(getViewModelClass()) }
+    protected val viewModel: VM by lazy { ViewModelProvider(this)[getViewModelClass()] }
     protected abstract fun getViewModelClass(): Class<VM>
 
     override fun onCreate(savedInstanceState: Bundle?) {

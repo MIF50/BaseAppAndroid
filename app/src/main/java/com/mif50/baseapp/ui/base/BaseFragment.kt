@@ -14,13 +14,10 @@ abstract class BaseFragment<VB : ViewBinding,VM: ViewModel> : Fragment() {
     // TODO: ViewBinding
     private var _binding: ViewBinding? = null
     abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
-
-    @Suppress("UNCHECKED_CAST")
-    protected val binding: VB
-        get() = _binding as VB
+    protected val binding: VB get() = _binding as VB
 
     // TODO: ViewModel
-    protected val viewModel: VM by lazy { ViewModelProvider(this).get(getViewModelClass()) }
+    protected val viewModel: VM by lazy { ViewModelProvider(this)[getViewModelClass()] }
     protected abstract fun getViewModelClass(): Class<VM>
 
     override fun onCreateView(
